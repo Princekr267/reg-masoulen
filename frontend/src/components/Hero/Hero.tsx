@@ -217,6 +217,7 @@ export const Hero: React.FC<HeroProps> = ({ isClosed = false }) => {
 
       {/* Desktop-only Bottom Right: Detective Woman (Holding magnifying glass and dossier) */}
       <div className="absolute -bottom-8 md:-bottom-12 lg:-bottom-16 xl:-bottom-20 right-0 z-20 pointer-events-none hidden md:block w-[240px] lg:w-[320px] xl:w-[380px] animate-float-detective">
+      <div className="absolute bottom-0 right-0 z-20 pointer-events-none hidden md:block w-[240px] lg:w-[320px] xl:w-[380px] animate-float-detective">
         <img
           src={detectiveImg}
           alt="Detective with magnifying glass and confidential dossier"
