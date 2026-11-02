@@ -47,7 +47,7 @@ const STEPS: Step[] = [
 
 const InvestigationProtocol: React.FC = () => {
   return (
-    <section className="relative bg-[#0d0a08] py-20 px-6 overflow-hidden">
+    <section className="relative bg-noir-bg py-20 px-6 overflow-hidden">
       {/* Subtle background noise / grain texture via CSS */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -60,23 +60,20 @@ const InvestigationProtocol: React.FC = () => {
       <div className="relative max-w-3xl mx-auto">
         {/* Section heading */}
         <div className="text-center mb-16">
-          <h2
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#f5f0e8] mb-3"
-            style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
-          >
+          <h2 className="font-noir text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-noir-heading mb-3">
             The Investigation Protocol
           </h2>
-          <p className="text-sm sm:text-base text-[#8a8070] uppercase tracking-[0.2em]">
+          <p className="text-sm sm:text-base text-noir-body uppercase tracking-[0.2em]">
             How the case unfolds
           </p>
           {/* Decorative rule */}
-          <div className="mt-6 mx-auto w-24 h-px bg-gradient-to-r from-transparent via-[#8B0000] to-transparent" />
+          <div className="mt-6 mx-auto w-24 h-px bg-gradient-to-r from-transparent via-noir-blood to-transparent" />
         </div>
 
         {/* Timeline */}
         <div className="relative">
           {/* Vertical red thread — the evidence-board string */}
-          <div className="absolute left-5 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#8B0000]/0 via-[#8B0000] to-[#8B0000]/0" />
+          <div className="absolute left-5 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-noir-blood/0 via-noir-blood to-noir-blood/0" />
 
           <ol className="relative space-y-10 sm:space-y-12">
             {STEPS.map((step) => (
@@ -85,19 +82,16 @@ const InvestigationProtocol: React.FC = () => {
                 className="group relative pl-14 sm:pl-20"
               >
                 {/* Pin / number on the red line */}
-                <div className="absolute left-2.5 sm:left-5 top-0.5 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-[#8B0000] bg-[#0d0a08] text-[10px] sm:text-xs font-bold text-[#B91C1C] transition-all duration-300 group-hover:bg-[#8B0000] group-hover:text-[#f5f0e8] group-hover:shadow-[0_0_12px_rgba(139,0,0,0.5)]">
+                <div className="absolute left-2.5 sm:left-5 top-0.5 flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-noir-blood bg-noir-bg text-[10px] sm:text-xs font-bold text-noir-blood-bright transition-all duration-300 group-hover:bg-noir-blood group-hover:text-noir-heading group-hover:shadow-[0_0_12px_rgba(139,0,0,0.5)]">
                   {step.number}
                 </div>
 
                 {/* Content card */}
-                <div className="rounded border border-[#2a2218]/60 bg-[#14110e]/80 px-5 py-4 sm:px-6 sm:py-5 transition-all duration-300 group-hover:border-[#8B0000]/40 group-hover:bg-[#1a1510]/90 group-hover:shadow-[0_0_20px_rgba(139,0,0,0.08)]">
-                  <h3
-                    className="text-base sm:text-lg font-bold text-[#e8dcc8] tracking-wide transition-colors duration-300 group-hover:text-[#B91C1C]"
-                    style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
-                  >
+                <div className="rounded border border-noir-border/60 bg-noir-card/80 px-5 py-4 sm:px-6 sm:py-5 transition-all duration-300 group-hover:border-noir-blood/40 group-hover:bg-noir-card-hover/90 group-hover:shadow-[0_0_20px_rgba(139,0,0,0.08)]">
+                  <h3 className="font-noir text-base sm:text-lg font-bold text-noir-title tracking-wide transition-colors duration-300 group-hover:text-noir-blood-bright">
                     {step.title}
                   </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#8a8070]">
+                  <p className="mt-1.5 text-sm leading-relaxed text-noir-body">
                     {step.description}
                   </p>
                 </div>
@@ -106,7 +100,7 @@ const InvestigationProtocol: React.FC = () => {
           </ol>
 
           {/* Terminal dot at the bottom of the thread */}
-          <div className="absolute left-[18px] sm:left-[29px] -bottom-1 w-2.5 h-2.5 rounded-full bg-[#8B0000] shadow-[0_0_8px_rgba(139,0,0,0.6)]" />
+          <div className="absolute left-[18px] sm:left-[29px] -bottom-1 w-2.5 h-2.5 rounded-full bg-noir-blood shadow-[0_0_8px_rgba(139,0,0,0.6)]" />
         </div>
       </div>
     </section>

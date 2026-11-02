@@ -23,6 +23,23 @@ export default {
             light: '#fda4af',
           },
         },
+        // Noir / detective section palette (shared by all noir-themed sections)
+        noir: {
+          bg: '#0d0a08',
+          card: '#14110e',
+          'card-hover': '#1a1510',
+          border: '#2a2218',
+          heading: '#f5f0e8',
+          title: '#e8dcc8',
+          body: '#8a8070',
+          blood: {
+            DEFAULT: '#8B0000',
+            bright: '#B91C1C',
+          },
+        },
+      },
+      fontFamily: {
+        noir: ["'Georgia'", "'Times New Roman'", 'serif'],
       },
     },
   },
