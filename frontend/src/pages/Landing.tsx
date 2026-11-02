@@ -4,6 +4,7 @@ import { getConfig, type GetConfigResponse } from '../services/api';
 import { calculateCountdown, type CountdownState } from '../lib/utils';
 import InvestigationProtocol from '../components/sections/InvestigationProtocol';
 import InvestigatorsToolkit from '../components/sections/InvestigatorsToolkit';
+import CodeOfSilence from '../components/sections/CodeOfSilence';
 
 export const LandingPage: React.FC = () => {
   const [config, setConfig] = useState<GetConfigResponse | null>(null);
@@ -176,7 +177,7 @@ export const LandingPage: React.FC = () => {
       </main>
 
       <InvestigatorsToolkit />
-
+      <CodeOfSilence />
       <InvestigationProtocol />
 
       {/* Footer */}
