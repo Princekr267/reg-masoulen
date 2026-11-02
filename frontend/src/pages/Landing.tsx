@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getConfig, type GetConfigResponse } from '../services/api';
 import { calculateCountdown, type CountdownState } from '../lib/utils';
+import InvestigationProtocol from '../components/sections/InvestigationProtocol';
+import InvestigatorsToolkit from '../components/sections/InvestigatorsToolkit';
+import CodeOfSilence from '../components/sections/CodeOfSilence';
 
 export const LandingPage: React.FC = () => {
   const [config, setConfig] = useState<GetConfigResponse | null>(null);
@@ -172,6 +175,10 @@ export const LandingPage: React.FC = () => {
           Venue is in Delhi (exact venue shared with confirmed teams). There is no accommodation, no food, and no merch provided. All participants must be aged 16 to 30 on 21 November 2026 and must carry a valid photo ID (school/college ID) at entry. Teams must consist of exactly 4 members.
         </div>
       </main>
+
+      <InvestigatorsToolkit />
+      <CodeOfSilence />
+      <InvestigationProtocol />
 
       {/* Footer */}
       <footer className="border-t border-theme-border py-6 text-center text-xs text-theme-muted">
