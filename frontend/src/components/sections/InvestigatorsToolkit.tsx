@@ -148,11 +148,11 @@ const InvestigatorsToolkit: React.FC = () => {
 
         {/* Cards grid — 1 col mobile, 2 col sm, 3 col lg.
             The 7th card is centered via justify-items-center on the grid. */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center">
+        <div className="flex flex-wrap justify-center gap-5">
           {DOMAINS.map((domain) => (
             <div
               key={domain.name}
-              className="group relative w-full max-w-sm rounded border border-noir-border/60 bg-noir-card/80 px-5 py-5 sm:px-6 sm:py-6 transition-all duration-300 hover:border-noir-blood/50 hover:bg-noir-card-hover/90 hover:shadow-[0_0_24px_rgba(139,0,0,0.12)]"
+             className="group relative w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)] rounded border border-noir-border/60 bg-noir-card/80 px-5 py-5 sm:px-6 sm:py-6 transition-all duration-300 hover:border-noir-blood/50 hover:bg-noir-card-hover/90 hover:shadow-[0_0_24px_rgba(139,0,0,0.12)]"
             >
               {/* Top-left docket hole — tiny decorative detail */}
               <div className="absolute top-2.5 right-3 w-1.5 h-1.5 rounded-full bg-noir-border/50" />
