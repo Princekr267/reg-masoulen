@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
 
-/* ------------------------------------------------------------------ */
-/*  Content. EDIT THIS ARRAY to match the official rules.              */
-/*  The text below is a draft: check it against src/data/rules.ts     */
-/*  or ask the organizers before the site goes live.                  */
-/* ------------------------------------------------------------------ */
-
 interface Category {
   id: string;
   label: string;
@@ -15,63 +9,64 @@ interface Category {
 
 const CATEGORIES: Category[] = [
   {
-    id: 'rules',
-    label: 'Rules & Regulations',
-    tagline: 'The ground rules every investigator must follow.',
+    id: 'registration',
+    label: 'Team Registration',
+    tagline: 'Who may enter the investigation.',
     items: [
-      'Teams must register before the deadline and stay within the allowed team size.',
-      'Every team member must be present and active for the full 48 hours.',
-      'Each team receives the same problem statement at the same moment.',
-      'All work must be original. Credit any source you rely on.',
-      'The decisions of the organizing committee are final.',
+      'Each team must have exactly 4 members.',
+      'Every participant can register with only one team.',
+      'Team changes are not permitted once the event begins.',
     ],
   },
   {
-    id: 'permitted',
-    label: 'Permitted Tools',
-    tagline: 'Fair game in the pursuit of the truth.',
+    id: 'campus',
+    label: '48-Hour Campus Stay',
+    tagline: 'Once the case begins, you stay on site.',
     items: [
-      'Open-source intelligence tools and publicly available websites.',
-      'Programming languages, scripts and standard analysis software.',
-      'Search engines, public archives, maps and reference material.',
-      'Documentation, textbooks and your own notes.',
-      'AI assistants for understanding concepts, unless the organizers state otherwise.',
+      'Participants must remain on campus throughout the 48-hour event.',
+      'Leaving campus is not permitted except in emergencies coordinated with the organizers.',
+      'Bring clothes, toiletries, necessary medications, and other overnight essentials.',
     ],
   },
   {
-    id: 'prohibited',
-    label: 'Prohibited Practices',
-    tagline: 'Cross these lines and the case is closed on you.',
+    id: 'food',
+    label: 'Food & Beverages',
+    tagline: 'Even detectives need to eat.',
     items: [
-      'Attacking, scanning or disrupting any real system or website.',
-      'Sharing clues, answers or solutions with other teams.',
-      'Hiring or receiving help from anyone outside your registered team.',
-      'Plagiarising another team’s dossier or any published write-up.',
-      'Interfering with the event platform, other participants or the evaluation.',
+      'Meals will not be provided by the organizers.',
+      'Participants can purchase food from campus canteens at their own expense, subject to operating hours.',
+      'Packed meals, snacks, and beverages are allowed.',
     ],
   },
   {
-    id: 'submission',
-    label: 'Submission Requirements',
-    tagline: 'How your final report must reach the bureau.',
+    id: 'equipment',
+    label: 'Mandatory Equipment',
+    tagline: 'Come prepared.',
     items: [
-      'Submit a single PDF dossier through the official submission channel.',
-      'Include your team name, members and a clear chain of reasoning.',
-      'Back every conclusion with evidence and cite your sources.',
-      'Submissions must arrive before the deadline. Late files are not accepted.',
-      'Only the latest submission from a team is evaluated.',
+      'Bring your own laptop, charger, and necessary accessories.',
+      'Every team MUST bring at least one extension board. Extension boards will not be provided.',
+      'Carry a valid college ID or government-issued photo ID.',
+      'Use electrical equipment safely and avoid overloading sockets.',
     ],
   },
   {
-    id: 'disqualification',
-    label: 'Disqualification Criteria',
-    tagline: 'The fastest way to lose the case.',
+    id: 'conduct',
+    label: 'Fair Play & Conduct',
+    tagline: 'Play fair or leave the case.',
     items: [
-      'Plagiarism or copying from other teams.',
-      'Breaking any rule listed under Prohibited Practices.',
-      'Providing false information during registration or evaluation.',
-      'Misconduct or abusive behaviour toward organizers or participants.',
-      'Missing the submission deadline without prior approval.',
+      'Cheating, plagiarism, sharing restricted solutions, and disrupting other teams are prohibited.',
+      'Respect fellow participants, organizers, and campus property.',
+      'Harassment, misconduct, alcohol, and prohibited substances are strictly forbidden.',
+    ],
+  },
+  {
+    id: 'general',
+    label: 'General Instructions',
+    tagline: 'The final word of the bureau.',
+    items: [
+      "Follow event schedules, submission deadlines, and organizers' instructions.",
+      'Stay within permitted campus areas and report emergencies immediately.',
+      "Rule violations may result in disqualification. Organizers' decisions on event matters will be final.",
     ],
   },
 ];
@@ -160,6 +155,9 @@ const CodeOfSilence: React.FC = () => {
             ))}
           </ul>
         </div>
+        <p className="mt-4 text-center text-xs italic text-noir-body/70">
+          By registering, participants agree to follow the event rules and guidelines.
+        </p>
       </div>
     </section>
   );
