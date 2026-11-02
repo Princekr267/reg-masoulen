@@ -51,62 +51,62 @@ const CATEGORIES: Category[] = [
   },
   {
     id: 'conduct',
-    label: 'Fair Play & Conduct',
-    tagline: 'Play fair or leave the case.',
+    label: 'Campus Conduct',
+    tagline: 'Respect the grounds of the mystery.',
     items: [
-      'Cheating, plagiarism, sharing restricted solutions, and disrupting other teams are prohibited.',
-      'Respect fellow participants, organizers, and campus property.',
-      'Harassment, misconduct, alcohol, and prohibited substances are strictly forbidden.',
+      'Smoking, vaping, alcohol, and any illegal substances are strictly prohibited.',
+      'Harassment, discrimination, or disruptive behaviour will result in immediate disqualification and removal.',
+      'Follow all directions given by university authorities, security personnel, and event organizers.',
     ],
   },
   {
-    id: 'general',
-    label: 'General Instructions',
-    tagline: 'The final word of the bureau.',
+    id: 'integrity',
+    label: 'Fair Play & Intellectual Property',
+    tagline: 'Solve it honestly.',
     items: [
-      "Follow event schedules, submission deadlines, and organizers' instructions.",
-      'Stay within permitted campus areas and report emergencies immediately.',
-      "Rule violations may result in disqualification. Organizers' decisions on event matters will be final.",
+      'All solutions and submissions must be the original work of your team created during the event.',
+      'Plagiarism, unauthorized collaboration, or sabotage of other teams means immediate disqualification.',
+      'Teams retain full ownership of the intellectual property they build during the hackathon.',
     ],
   },
 ];
 
-/* ------------------------------------------------------------------ */
-/*  Component                                                          */
-/* ------------------------------------------------------------------ */
-
-const CodeOfSilence: React.FC = () => {
+export const CodeOfSilence: React.FC = () => {
   const [activeId, setActiveId] = useState<string>(CATEGORIES[0].id);
   const active = CATEGORIES.find((c) => c.id === activeId) ?? CATEGORIES[0];
 
   return (
-    <section className="relative bg-noir-bg py-20 px-6 overflow-hidden">
-      {/* Grain overlay, same as the other noir sections */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
-        }}
-      />
-
+    <section id="rules" className="relative z-10 w-full bg-transparent py-20 px-4 sm:px-6">
       <div className="relative max-w-4xl mx-auto">
-        {/* Heading */}
-        <div className="text-center mb-12">
-          <h2 className="font-noir text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-noir-heading mb-3">
+        {/* Section Heading */}
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded bg-[#220305] border border-[#881337] text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#ff3b47] font-semibold mb-4 shadow-md">
+            <span>✦</span>
+            <span>BUREAU PROTOCOLS</span>
+            <span>✦</span>
+          </div>
+
+          <h2 className="font-gothic text-3xl sm:text-4xl md:text-5xl font-bold tracking-wider text-[#180305] drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)] mb-3">
             The Code of Silence
           </h2>
-          <p className="text-sm sm:text-base text-noir-body uppercase tracking-[0.2em]">
-            Rules every investigator must obey
+
+          <p className="font-serif text-sm sm:text-base text-[#4a080c] uppercase tracking-[0.22em] font-semibold">
+            Strict rules every investigator must obey
           </p>
-          <div className="mt-6 mx-auto w-24 h-px bg-gradient-to-r from-transparent via-noir-blood to-transparent" />
+
+          {/* Ornate gothic divider */}
+          <div className="mt-5 flex items-center justify-center gap-3">
+            <div className="h-px w-16 sm:w-28 bg-gradient-to-r from-transparent to-[#b0121b]" />
+            <span className="text-xs text-[#b0121b]">✦</span>
+            <div className="h-px w-16 sm:w-28 bg-gradient-to-l from-transparent to-[#b0121b]" />
+          </div>
         </div>
 
-        {/* Tabs */}
+        {/* Tab Selector */}
         <div
           role="tablist"
           aria-label="Code of Silence categories"
-          className="flex flex-wrap justify-center gap-3 mb-8"
+          className="flex flex-wrap justify-center gap-2.5 sm:gap-3 mb-8"
         >
           {CATEGORIES.map((cat) => {
             const isActive = cat.id === activeId;
@@ -116,12 +116,11 @@ const CodeOfSilence: React.FC = () => {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveId(cat.id)}
-                className={
-                  'rounded border px-4 py-2 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-300 ' +
-                  (isActive
-                    ? 'border-noir-blood-bright bg-noir-card-hover text-noir-heading shadow-[0_0_18px_rgba(139,0,0,0.25)]'
-                    : 'border-noir-border/60 bg-noir-card/80 text-noir-body hover:border-noir-blood/50 hover:text-noir-title')
-                }
+                className={`rounded-md border px-4 py-2 font-gothic text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-300 backdrop-blur-md ${
+                  isActive
+                    ? 'border-[#e51a24] bg-[#220305] text-white shadow-[0_0_16px_rgba(229,26,36,0.5)] scale-105'
+                    : 'border-[#3a0608] bg-[#120204]/95 text-[#f5e6d3] hover:border-[#b0121b] hover:text-[#ff3b47]'
+                }`}
               >
                 {cat.label}
               </button>
@@ -129,34 +128,38 @@ const CodeOfSilence: React.FC = () => {
           })}
         </div>
 
-        {/* Panel */}
+        {/* Confidential Docket Card Panel (Deep Dark with Crisp High Contrast) */}
         <div
           role="tabpanel"
-          className="relative rounded border border-noir-border/60 bg-noir-card/80 px-6 py-8 sm:px-10 sm:py-10"
+          className="relative rounded-lg border border-[#3a0608] bg-[#120204]/95 px-6 py-8 sm:px-10 sm:py-10 shadow-2xl shadow-black/70 backdrop-blur-md transition-all duration-300"
         >
-          <div className="absolute top-3 right-4 w-1.5 h-1.5 rounded-full bg-noir-border/50" />
+          {/* Top-right brass seal rivet */}
+          <div className="absolute top-4 right-4 w-2.5 h-2.5 rounded-full border border-[#8a715a]/70 bg-[#2b070a]" />
 
-          <h3 className="font-noir text-xl sm:text-2xl font-bold text-noir-title tracking-wide mb-1">
+          <h3 className="font-gothic text-xl sm:text-2xl font-bold text-[#f5e6d3] tracking-wide mb-1.5">
             {active.label}
           </h3>
-          <p className="text-sm italic text-noir-body mb-6">{active.tagline}</p>
-          <div className="mb-6 w-16 h-px bg-noir-blood/60" />
+          <p className="font-serif italic text-sm text-[#ff3b47] mb-6">
+            "{active.tagline}"
+          </p>
+          <div className="mb-6 w-20 h-px bg-gradient-to-r from-[#b0121b] to-transparent" />
 
           <ul className="space-y-4">
             {active.items.map((item, index) => (
               <li key={item} className="flex items-start gap-4">
-                <span className="mt-0.5 font-noir text-sm font-bold text-noir-blood-bright w-6 shrink-0">
+                <span className="mt-0.5 font-gothic text-xs sm:text-sm font-bold text-[#ff3b47] bg-[#220305] border border-[#b0121b]/60 rounded px-2 py-0.5 shrink-0 shadow-sm">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="text-sm sm:text-base leading-relaxed text-noir-body">
+                <span className="font-serif text-sm sm:text-base leading-relaxed text-[#f5e6d3]">
                   {item}
                 </span>
               </li>
             ))}
           </ul>
         </div>
-        <p className="mt-4 text-center text-xs italic text-noir-body/70">
-          By registering, participants agree to follow the event rules and guidelines.
+
+        <p className="mt-5 text-center font-serif text-xs font-semibold uppercase tracking-wider text-[#4a080c]">
+          ✦ By registering, participants agree to uphold and execute the code of silence ✦
         </p>
       </div>
     </section>

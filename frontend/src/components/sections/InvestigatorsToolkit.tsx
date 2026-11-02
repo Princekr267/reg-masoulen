@@ -122,58 +122,61 @@ const DOMAINS: Domain[] = [
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-const InvestigatorsToolkit: React.FC = () => {
+export const InvestigatorsToolkit: React.FC = () => {
   return (
-    <section className="relative bg-noir-bg py-20 px-6 overflow-hidden">
-      {/* Grain overlay — same as InvestigationProtocol */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
-        }}
-      />
-
+    <section id="toolkit" className="relative z-10 w-full bg-transparent py-20 px-4 sm:px-6">
       <div className="relative max-w-5xl mx-auto">
-        {/* Section heading — mirrors InvestigationProtocol style */}
+        {/* Section Heading */}
         <div className="text-center mb-16">
-          <h2 className="font-noir text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-noir-heading mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded bg-[#220305] border border-[#881337] text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#ff3b47] font-semibold mb-4 shadow-md">
+            <span>✦</span>
+            <span>CRIME ARSENAL</span>
+            <span>✦</span>
+          </div>
+
+          <h2 className="font-gothic text-3xl sm:text-4xl md:text-5xl font-bold tracking-wider text-[#180305] drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)] mb-3">
             The Investigator's Toolkit
           </h2>
-          <p className="text-sm sm:text-base text-noir-body uppercase tracking-[0.2em]">
-            Skills required to crack the case
+
+          <p className="font-serif text-sm sm:text-base text-[#4a080c] uppercase tracking-[0.22em] font-semibold">
+            Essential skills required to crack the case
           </p>
-          <div className="mt-6 mx-auto w-24 h-px bg-gradient-to-r from-transparent via-noir-blood to-transparent" />
+
+          {/* Ornate gothic divider */}
+          <div className="mt-5 flex items-center justify-center gap-3">
+            <div className="h-px w-16 sm:w-28 bg-gradient-to-r from-transparent to-[#b0121b]" />
+            <span className="text-xs text-[#b0121b]">✦</span>
+            <div className="h-px w-16 sm:w-28 bg-gradient-to-l from-transparent to-[#b0121b]" />
+          </div>
         </div>
 
-        {/* Cards grid — 1 col mobile, 2 col sm, 3 col lg.
-            The 7th card is centered via justify-items-center on the grid. */}
+        {/* Cards Grid: Deep dark cards so light text is crisp and readable */}
         <div className="flex flex-wrap justify-center gap-5">
           {DOMAINS.map((domain) => (
             <div
               key={domain.name}
-             className="group relative w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)] rounded border border-noir-border/60 bg-noir-card/80 px-5 py-5 sm:px-6 sm:py-6 transition-all duration-300 hover:border-noir-blood/50 hover:bg-noir-card-hover/90 hover:shadow-[0_0_24px_rgba(139,0,0,0.12)]"
+              className="group relative w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.84rem)] rounded-lg border border-[#3a0608] bg-[#120204]/95 hover:bg-[#1f0307] hover:border-[#b0121b] px-6 py-6 transition-all duration-300 shadow-xl shadow-black/50 hover:shadow-[0_0_24px_rgba(229,26,36,0.3)] backdrop-blur-md"
             >
-              {/* Top-left docket hole — tiny decorative detail */}
-              <div className="absolute top-2.5 right-3 w-1.5 h-1.5 rounded-full bg-noir-border/50" />
+              {/* Brass rivet detail */}
+              <div className="absolute top-3.5 right-3.5 w-2 h-2 rounded-full border border-[#8a715a]/70 bg-[#2b070a]" />
 
               {/* Icon */}
-              <div className="mb-4 text-noir-blood-bright transition-colors duration-300 group-hover:text-noir-blood">
+              <div className="mb-4 text-[#ff3b47] filter drop-shadow-[0_0_6px_rgba(229,26,36,0.5)] transition-transform duration-300 group-hover:scale-110">
                 {domain.icon}
               </div>
 
               {/* Title */}
-              <h3 className="font-noir text-base sm:text-lg font-bold text-noir-title tracking-wide mb-1.5 transition-colors duration-300 group-hover:text-noir-blood-bright">
+              <h3 className="font-gothic text-base sm:text-lg font-bold text-[#f5e6d3] tracking-wide mb-2 transition-colors duration-300 group-hover:text-[#ff3b47]">
                 {domain.name}
               </h3>
 
               {/* Description */}
-              <p className="text-sm leading-relaxed text-noir-body">
+              <p className="font-serif text-sm leading-relaxed text-[#d8c5b2]">
                 {domain.description}
               </p>
 
-              {/* Bottom accent line — appears on hover */}
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-noir-blood/0 transition-all duration-300 group-hover:bg-noir-blood/30" />
+              {/* Bottom crimson glow accent on hover */}
+              <div className="absolute bottom-0 left-4 right-4 h-[1.5px] bg-gradient-to-r from-transparent via-[#e51a24]/0 to-transparent transition-all duration-300 group-hover:via-[#e51a24]/80" />
             </div>
           ))}
         </div>

@@ -8,21 +8,20 @@
  *   "timeZone": "Asia/Kolkata",
  *   "runtimeVersion": "V8"        <- required: names use Unicode regex (\p{L}, u flag)
  *
- * SCRIPT PROPERTIES you add by hand (Project Settings > Script properties):
- *   ADMIN_SHEET_ID  id of the separate owner-only spreadsheet (must differ from this one)
- *   GROUP_LINK      the WhatsApp group link
- *   REG_CLOSE_AT    2026-11-17T23:59:59+05:30   (optional, invalid values are ignored)
+ * SCRIPT PROPERTIES (Project Settings > Script properties):
+ *   GROUP_LINK      the WhatsApp group link (optional)
+ *   ADMIN_SHEET_ID  id of separate spreadsheet if you want admin creds isolated (optional, defaults to same sheet)
+ *   REG_CLOSE_AT    2026-11-17T23:59:59+05:30   (optional)
  *   SENDER_NAME     masoulen                    (optional)
  *   EMAIL_ENABLED   FALSE while testing, TRUE at launch
- * setup() fills in any optional ones that are missing. It also stores MAIN_SHEET_ID,
- * TEAM_COUNTER, and uses CACHE_EPOCH (reset support). LAUNCHED is added by hand at launch.
+ * setup() sets up sheets, triggers, and creates default admin ('owner' / 'Admin@123').
  *
  * EDITOR FUNCTIONS (run from the editor, never callable from the web):
- *   setup()               once, then again after any code change that adds sheets/triggers
- *   createAdmin()         edit the 3 constants inside first; prints the password once in the log
- *   resetAdminPassword()  edit the ADMIN_ID constant inside first
- *   unlockAdmin()         edit the ADMIN_ID constant inside first
+ *   setup()               run once to initialize tabs, triggers, and default admin
  *   healthCheck()         read-only status report in the log
+ *   createAdmin()         create additional admin accounts
+ *   resetAdminPassword()  reset password for an admin
+ *   unlockAdmin()         unlock a locked admin
  *   resetAllData()        pre-launch wipe; refuses once LAUNCHED = TRUE
  *   processEmailQueue(), dailyBackup()   run by triggers
  */
@@ -414,11 +413,23 @@ function isOpenNow_() { return nowMs_() <= regCloseMs_(); }
  * 6. SHEET ACCESS (everything goes through these so formula-guarding and plain-text cells are uniform)
  * ========================================================================== */
 
+function extractSheetId_(str) {
+  if (!str) return '';
+  var s = String(str).trim();
+  var m = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/.exec(s);
+  return m ? m[1] : s;
+}
+
 function mainSs_() {
   if (SS_) return SS_;
-  var id = prop_('MAIN_SHEET_ID');
-  SS_ = id ? SpreadsheetApp.openById(id) : SpreadsheetApp.getActiveSpreadsheet();
-  if (!SS_) throw new Error('Main spreadsheet not found. Run setup() from the Apps Script editor.');
+  var id = extractSheetId_(prop_('MAIN_SHEET_ID'));
+  if (id) {
+    try { SS_ = SpreadsheetApp.openById(id); } catch (e) { Logger.log('openById MAIN_SHEET_ID failed: ' + e); }
+  }
+  if (!SS_) {
+    try { SS_ = SpreadsheetApp.getActiveSpreadsheet(); } catch (e2) {}
+  }
+  if (!SS_) throw new Error('Main spreadsheet not found. Open this script from your spreadsheet (Extensions > Apps Script) and run setup().');
   return SS_;
 }
 function sheet_(name) {
@@ -427,9 +438,11 @@ function sheet_(name) {
   return sh;
 }
 function adminSs_() {
-  var id = prop_('ADMIN_SHEET_ID');
-  if (!id) throw new Error('Script Property ADMIN_SHEET_ID is not set.');
-  return SpreadsheetApp.openById(id);
+  var id = extractSheetId_(prop_('ADMIN_SHEET_ID'));
+  if (id) {
+    try { return SpreadsheetApp.openById(id); } catch (e) { Logger.log('Could not open ADMIN_SHEET_ID, falling back to main sheet: ' + e); }
+  }
+  return mainSs_();
 }
 
 function readRows_(sheet, headers) {
@@ -1410,12 +1423,22 @@ function installTriggers_() {
 function setup() {
   beginExecution_();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss) throw new Error('Open this script from the main spreadsheet (Extensions > Apps Script) and run setup() again.');
-  var adminId = prop_('ADMIN_SHEET_ID');
-  if (!adminId) throw new Error('Add the Script Property ADMIN_SHEET_ID first (the separate owner-only spreadsheet), then run setup() again.');
-  if (adminId === ss.getId()) throw new Error('ADMIN_SHEET_ID must be a different spreadsheet from the main one.');
+  if (!ss) {
+    var mainId = extractSheetId_(prop_('MAIN_SHEET_ID'));
+    if (mainId) {
+      try { ss = SpreadsheetApp.openById(mainId); } catch (e) {}
+    }
+  }
+  if (!ss) throw new Error('Open this script directly from your Google Sheet (Extensions > Apps Script) and run setup() again.');
   setProp_('MAIN_SHEET_ID', ss.getId());
   SS_ = ss;
+
+  var adminId = extractSheetId_(prop_('ADMIN_SHEET_ID'));
+  var admSs = ss;
+  if (adminId && adminId !== ss.getId()) {
+    try { admSs = SpreadsheetApp.openById(adminId); } catch (e) { admSs = ss; }
+  }
+
   if (!prop_('EMAIL_ENABLED')) setProp_('EMAIL_ENABLED', 'FALSE');
   if (!prop_('SENDER_NAME')) setProp_('SENDER_NAME', CFG.EVENT_NAME);
   if (!prop_('REG_CLOSE_AT')) setProp_('REG_CLOSE_AT', CFG.DEFAULT_REG_CLOSE_AT);
@@ -1425,12 +1448,31 @@ function setup() {
   ensureSheet_(ss, SHEETS.TEAMS, H.TEAMS);
   ensureSheet_(ss, SHEETS.MEMBERS, H.MEMBERS);
   ensureSheet_(ss, SHEETS.LOG, H.LOG);
-  ensureSheet_(SpreadsheetApp.openById(adminId), SHEETS.ADMINS, H.ADMINS);
+  ensureSheet_(admSs, SHEETS.ADMINS, H.ADMINS);
   installTriggers_();
 
-  Logger.log('setup() done. Tabs, triggers (email queue every 10 min, daily backup) and counters are in place.');
-  if (!prop_('GROUP_LINK')) Logger.log('WARNING: GROUP_LINK is not set. Confirmation screens and emails will have no WhatsApp link.');
-  Logger.log('Next: run createAdmin(), then Deploy > New deployment > Web app (Execute as: Me, Access: Anyone).');
+  // Create default admin if none exists
+  var adminRows = readRows_(admSs.getSheetByName(SHEETS.ADMINS), H.ADMINS);
+  if (adminRows.length === 0) {
+    var defaultId = 'owner';
+    var defaultPw = 'Admin@123';
+    var salt = randomHex_(32);
+    appendRows_(admSs.getSheetByName(SHEETS.ADMINS), H.ADMINS, [{
+      AdminID: defaultId,
+      Name: 'Organizer',
+      Salt: salt,
+      PasswordHash: hashPassword_(salt, defaultPw),
+      Role: 'owner',
+      Active: 'TRUE'
+    }]);
+    Logger.log('---------------------------------------------------------');
+    Logger.log('Created default admin -> ID: "' + defaultId + '", Password: "' + defaultPw + '"');
+    Logger.log('---------------------------------------------------------');
+  }
+
+  Logger.log('setup() done. Tabs, triggers and admin account are ready.');
+  if (!prop_('GROUP_LINK')) Logger.log('NOTE: GROUP_LINK is not set yet. You can add it in Script properties if desired.');
+  Logger.log('Next: Deploy > New deployment > Web app (Execute as: Me, Access: Anyone).');
 }
 
 function healthCheck() {
@@ -1438,7 +1480,7 @@ function healthCheck() {
   var ok = true;
   function line(label, good, extra) { if (!good) ok = false; Logger.log((good ? 'OK    ' : 'FAIL  ') + label + (extra ? ' - ' + extra : '')); }
   line('MAIN_SHEET_ID set', !!prop_('MAIN_SHEET_ID'));
-  line('ADMIN_SHEET_ID set', !!prop_('ADMIN_SHEET_ID'));
+  line('ADMIN_SHEET_ID configured', true, prop_('ADMIN_SHEET_ID') ? 'separate spreadsheet' : 'using main spreadsheet (default)');
   line('GROUP_LINK set', !!prop_('GROUP_LINK'));
   line('Registration deadline', true, isoIST_(regCloseMs_()) + (isOpenNow_() ? ' (open)' : ' (CLOSED)'));
   line('EMAIL_ENABLED', true, prop_('EMAIL_ENABLED', 'FALSE'));
@@ -1450,7 +1492,7 @@ function healthCheck() {
       line('Sheet ' + SHEETS[k], !!sh, sh ? (Math.max(sh.getLastRow() - 1, 0) + ' data rows') : 'missing, run setup()');
     });
     var adm = adminSs_().getSheetByName(SHEETS.ADMINS);
-    line('Sheet Admins (owner-only file)', !!adm, adm ? (Math.max(adm.getLastRow() - 1, 0) + ' admins') : 'missing, run setup()');
+    line('Sheet Admins', !!adm, adm ? (Math.max(adm.getLastRow() - 1, 0) + ' admins') : 'missing, run setup()');
   } catch (e) { line('Spreadsheet access', false, String(e)); }
   var handlers = ScriptApp.getProjectTriggers().map(function (t) { return t.getHandlerFunction(); });
   line('Trigger processEmailQueue', handlers.indexOf('processEmailQueue') >= 0);
