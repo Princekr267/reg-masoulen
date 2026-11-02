@@ -6,6 +6,7 @@ import detectiveImg from '../../assets/masoulen/detective.webp';
 import detectiveMobileImg from '../../assets/masoulen/detective-mobile.webp';
 import ravenImg from '../../assets/masoulen/raven-clean.webp';
 import evidenceBoardImg from '../../assets/masoulen/evidence-board-clean.webp';
+import noirMurderBoardImg from '../../assets/masoulen/noir-murder-board.webp';
 import mobileEvidenceBoardImg from '../../assets/masoulen/mobile-evidence-board.webp';
 import registerBtnFrameImg from '../../assets/masoulen/register-btn-frame.webp';
 import dividerTopImg from '../../assets/masoulen/divider-top.webp';
@@ -43,6 +44,22 @@ export const Hero: React.FC<HeroProps> = ({ isClosed = false }) => {
             alt="Haunted Mansion Evidence Board with Forensic Notes, Polaroids and Strings"
             width={535}
             height={466}
+            loading="eager"
+            className="w-full h-auto object-contain filter drop-shadow-[0_8px_24px_rgba(0,0,0,0.85)]"
+          />
+        </div>
+      </div>
+
+      {/* =========================================================================
+       * UPPER-RIGHT FLANK: Noir Murder Board Evidence Collage (Desktop)
+       * ========================================================================= */}
+      <div className="pointer-events-none absolute right-3 sm:right-5 md:right-6 lg:right-8 xl:right-10 top-0 sm:top-1 md:top-2 lg:top-3 z-10 hidden md:block w-[270px] md:w-[340px] lg:w-[400px] xl:w-[440px] animate-fade-in-board">
+        <div className="relative">
+          <img
+            src={noirMurderBoardImg}
+            alt="Noir Murder Board Evidence Collage with Forensic Notes, Suspect Photos and Red Thread"
+            width={523}
+            height={477}
             loading="eager"
             className="w-full h-auto object-contain filter drop-shadow-[0_8px_24px_rgba(0,0,0,0.85)]"
           />
@@ -199,7 +216,7 @@ export const Hero: React.FC<HeroProps> = ({ isClosed = false }) => {
       </div>
 
       {/* Desktop-only Bottom Right: Detective Woman (Holding magnifying glass and dossier) */}
-      <div className="absolute bottom-0 right-0 z-20 pointer-events-none hidden md:block w-[240px] lg:w-[320px] xl:w-[380px] animate-float-detective">
+      <div className="absolute -bottom-8 md:-bottom-12 lg:-bottom-16 xl:-bottom-20 right-0 z-20 pointer-events-none hidden md:block w-[240px] lg:w-[320px] xl:w-[380px] animate-float-detective">
         <img
           src={detectiveImg}
           alt="Detective with magnifying glass and confidential dossier"
