@@ -1,0 +1,112 @@
+{
+  "teams": [
+    {
+      "teamId": "CASE-0001",
+      "timestamp": "2026-11-01T12:00:00+05:30",
+      "teamName": "Cyber Pioneers",
+      "college": {
+        "name": "Delhi Technological University",
+        "address": "Bawana Road, Shahbad Daulatpur",
+        "city": "Delhi",
+        "state": "Delhi",
+        "pin": "110042"
+      },
+      "howHeard": "Instagram",
+      "status": "confirmed",
+      "checkedIn": false,
+      "emailStatus": "pending",
+      "members": [
+        {
+          "role": "captain",
+          "fullName": "Aarav Sharma",
+          "email": "aarav@example.com",
+          "phone": "9876543210",
+          "dob": "2004-05-15",
+          "ageOnEvent": 22,
+          "college": "Delhi Technological University",
+          "course": "B.Tech / B.E.",
+          "branch": "CSE",
+          "year": "3rd"
+        },
+        {
+          "role": "member",
+          "fullName": "Ananya Verma",
+          "email": "ananya@example.com",
+          "phone": "9876543211",
+          "dob": "2004-08-20",
+          "ageOnEvent": 22,
+          "college": "Delhi Technological University",
+          "course": "B.Tech / B.E.",
+          "branch": "IT",
+          "year": "3rd"
+        },
+        {
+          "role": "member",
+          "fullName": "Rohan Gupta",
+          "email": "rohan@example.com",
+          "phone": "9876543212",
+          "dob": "2003-11-10",
+          "ageOnEvent": 23,
+          "college": "Delhi Technological University",
+          "course": "B.Tech / B.E.",
+          "branch": "ECE",
+          "year": "4th"
+        },
+        {
+          "role": "member",
+          "fullName": "Sneha Patel",
+          "email": "sneha@example.com",
+          "phone": "9876543213",
+          "dob": "2005-02-28",
+          "ageOnEvent": 21,
+          "college": "Delhi Technological University",
+          "course": "B.Tech / B.E.",
+          "branch": "AI/ML",
+          "year": "2nd"
+        }
+      ]
+    },
+    {
+      "teamId": "CASE-0002",
+      "timestamp": "2026-11-01T18:42:33.105Z",
+      "teamName": "Hackers United",
+      "college": {
+        "name": "DTU",
+        "city": "Delhi",
+        "state": "Delhi",
+        "pin": "110042"
+      },
+      "howHeard": "Instagram",
+      "status": "confirmed",
+      "checkedIn": false,
+      "emailStatus": "pending",
+      "members": [
+        {
+          "fullName": "Aman",
+          "email": "aman@example.com",
+          "role": "captain",
+          "ageOnEvent": 20
+        },
+        {
+          "fullName": "Priya",
+          "email": "priya@example.com",
+          "role": "member",
+          "ageOnEvent": 20
+        },
+        {
+          "fullName": "Ravi",
+          "email": "ravi@example.com",
+          "role": "member",
+          "ageOnEvent": 20
+        },
+        {
+          "fullName": "Kavita",
+          "email": "kavita@example.com",
+          "role": "member",
+          "ageOnEvent": 20
+        }
+      ]
+    }
+  ],
+  "counter": 2
+}
