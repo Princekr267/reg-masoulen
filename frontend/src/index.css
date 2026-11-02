@@ -2,11 +2,206 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #0d0203;
+  color: #120405;
+}
+
+/* Custom Gothic Animations */
+@keyframes slowRuneSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ctaGlowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(229, 26, 36, 0.35));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(229, 26, 36, 0.55));
+    transform: scale(1.015);
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes floatGentleAlt {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Gothic Utilities */
+@layer utilities {
+  .text-glow-red {
+    text-shadow: 0 0 10px rgba(229, 26, 36, 0.75), 0 0 20px rgba(176, 18, 27, 0.45);
+  }
+
+  .text-glow-red-sm {
+    text-shadow: 0 0 6px rgba(229, 26, 36, 0.6);
+  }
+
+  /* Ornate gothic CTA button shape (pointed ends on left and right) */
+  .gothic-btn-shape,
+  .gothic-btn-pointed {
+    clip-path: polygon(
+      14px 0%,
+      calc(100% - 14px) 0%,
+      100% 50%,
+      calc(100% - 14px) 100%,
+      14px 100%,
+      0% 50%
+    );
+  }
+
+  /* CSS Mask fading utilities for eliminating hard photographic crop edges */
+  .mask-gradient-vertical {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%);
+  }
+
+  .mask-gradient-horizontal {
+    mask-image: linear-gradient(to right, black 75%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 75%, transparent 100%);
+  }
+
+  /* Fixed Non-Scrolling Site Background */
+  .fixed-site-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background-image: image-set(
+      url('/bg.webp') type('image/webp'),
+      url('/bg.png') type('image/png')
+    );
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .fixed-site-vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 40%, transparent 60%, rgba(13, 2, 3, 0.25) 85%, rgba(13, 2, 3, 0.65) 100%);
+    mix-blend-mode: multiply;
+  }
+
+  /* Mobile-Only Blood Splatter, Cracks & Dark Crimson Vignette */
+  .fixed-mobile-vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      url('./assets/masoulen/mobile-splatter-frame.webp') center / 100% 100% no-repeat,
+      radial-gradient(ellipse 95% 75% at 50% 38%, transparent 52%, rgba(138, 12, 22, 0.28) 78%, rgba(20, 2, 4, 0.75) 100%);
+  }
+
+  /* Ornate navbar border styling */
+  .ornate-border-b {
+    border-bottom: 2px solid #b0121b;
+    box-shadow: 0 4px 15px -2px rgba(176, 18, 27, 0.6);
+  }
+
+  /* Central illuminated parchment with dark blood vignette around edges */
+  .bg-parchment-vignette {
+    background-color: #0d0203;
+    background-image:
+      radial-gradient(ellipse at 50% 35%, rgba(244, 233, 222, 0.96) 0%, rgba(232, 213, 196, 0.9) 35%, rgba(180, 140, 115, 0.65) 60%, rgba(58, 6, 8, 0.92) 85%, #0d0203 100%);
+  }
+
+  /* Fine blood crack texture overlay generator (pure CSS SVG data uri) */
+  .bg-cracks-overlay {
+    background-image: radial-gradient(circle at 50% 50%, transparent 40%, rgba(13, 2, 3, 0.6) 100%);
+  }
+
+  /* Animation utility classes */
+  .animate-rune-spin {
+    animation: slowRuneSpin 110s linear infinite;
+    will-change: transform;
+  }
+
+  .animate-cta-pulse {
+    animation: ctaGlowPulse 3.5s ease-in-out infinite;
+    will-change: filter, transform;
+  }
+
+  .animate-float-raven {
+    animation: floatGentle 5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-float-detective {
+    animation: floatGentleAlt 6.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-fade-in-board {
+    animation: fadeInSoft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @media print {
@@ -27,4 +222,3 @@ body {
     background: #fff !important;
   }
 }
-
